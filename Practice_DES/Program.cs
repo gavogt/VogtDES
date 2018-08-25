@@ -12,8 +12,17 @@ namespace Practice_DES
     {
         static void Main(string[] args)
         {
+            string message = String.Empty;
+
+            Console.WriteLine("What would you like to encrypt?");
+            message = Console.ReadLine();
+
+            // Create a new DES object
             DES des = DES.Create();
-            //des.Key;
+
+            Encrypt(message, des.Key, des.IV);
+
+
         }
 
         #region
@@ -24,15 +33,27 @@ namespace Practice_DES
         /// <param name="Key">DES Key</param>
         /// <param name="IV">DES Initialization Vector</param>
         /// <returns></returns>
-        public static byte[] Ecrypt(byte[] Data, Byte[] Key, Byte[] IV)
+        public static byte[] Encrypt(string Data, Byte[] Key, Byte[] IV)
         {
-
+            // Create a new DES object
             DES des = DES.Create();
 
             MemoryStream ms = new MemoryStream();
-            CryptoStream cs = new CryptoStream(ms, des.CreateEncryptor(Key, IV);
 
-            return Data;
+            CryptoStream cs = new CryptoStream(ms, des.CreateEncryptor(Key, IV), CryptoStreamMode.Write);
+
+            // Couldn't remember
+            byte[] toEncrypt = new ASCIIEncoding().GetBytes(Data);
+
+            cs.Write(toEncrypt, 0, toEncrypt.Length);
+            cs.FlushFinalBlock();
+
+            byte[] encrypted = ms.ToArray();
+
+            ms.Close();
+            cs.Close();
+
+            return encrypted;
 
         }
         #endregion
@@ -47,10 +68,12 @@ namespace Practice_DES
         /// <returns></returns>
         public static byte[] Decrypt(byte[] Data, Byte[] Key, Byte[] IV)
         {
+            // Create a DES object
             DES des = DES.Create();
 
             MemoryStream ms = new MemoryStream();
-            CryptoStream cs = new CryptoStream(ms, des.CreateDecryptor(Key, IV));
+
+            CryptoStream cs = new CryptoStream(ms, des.CreateDecryptor(Key, IV), CryptoStreamMode.Read);
 
             return Data;
 
