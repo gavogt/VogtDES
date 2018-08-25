@@ -14,20 +14,50 @@ namespace Practice_DES
         {
             string message = String.Empty;
             byte[] encrypted = default;
-
-            Console.WriteLine("What would you like to encrypt?");
-            message = Console.ReadLine();
+            int selection = default;
 
             // Create a new DES object
             DES des = DES.Create();
 
-            encrypted = Encrypt(message, des.Key, des.IV);
+            DisplayOptions();
 
-            Console.WriteLine(new ASCIIEncoding().GetString(encrypted));
+            while (selection > 3 || selection < 1)
+            {
+                try
+                {
+                    Console.WriteLine("Please enter your selection");
+                    selection = Convert.ToInt32(Console.ReadLine());
+                }
+                catch
+                {
+                    DisplayError();
+                    DisplayOptions();
 
-            string decrypted = Decrypt(encrypted, des.Key, des.IV);
+                }
 
-            Console.WriteLine(decrypted);
+            }
+
+            switch (selection)
+            {
+                case 1:
+                    // Design problem
+                    Console.WriteLine("What would you like to encrypt?");
+                    message = Console.ReadLine();
+                    encrypted = Encrypt(message, des.Key, des.IV);
+                    Console.WriteLine(new ASCIIEncoding().GetString(encrypted));
+                    break;
+                case 2:
+                    string decrypted = Decrypt(encrypted, des.Key, des.IV);
+                    Console.WriteLine(decrypted);
+                    break;
+                case 3:
+                    Console.WriteLine("\n Quitting!");
+                    Environment.Exit(0);
+                    break;
+                default:
+                    Console.WriteLine("The light is broken inside but I still work");
+                    break;
+            }
 
         }
 
@@ -86,7 +116,7 @@ namespace Practice_DES
 
             cs.Read(decrypted, 0, decrypted.Length);
 
-            return new ASCIIEncoding().GetString(decrypted); 
+            return new ASCIIEncoding().GetString(decrypted);
 
         }
         #endregion
