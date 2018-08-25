@@ -15,36 +15,71 @@ namespace Practice_DES
             DES des = DES.Create();
             //des.Key;
         }
-    }
 
-    public static byte[] Ecrypt(byte[] Data, Byte[] Key, Byte[] IV)
-    {
+        #region
+        /// <summary>
+        /// Method to encrypt by DES
+        /// </summary>
+        /// <param name="Data">Byte Array of the data</param>
+        /// <param name="Key">DES Key</param>
+        /// <param name="IV">DES Initialization Vector</param>
+        /// <returns></returns>
+        public static byte[] Ecrypt(byte[] Data, Byte[] Key, Byte[] IV)
+        {
 
-        DES des = DES.Create();
+            DES des = DES.Create();
 
-        MemoryStream ms = new MemoryStream();
-        CryptoStream cs = new CryptoStream(ms, des.CreateEncryptor(Key, IV);
+            MemoryStream ms = new MemoryStream();
+            CryptoStream cs = new CryptoStream(ms, des.CreateEncryptor(Key, IV);
 
+            return Data;
 
-        return Data;
-    }
+        }
+        #endregion
 
-    public static byte[] Decrypt(byte[] Data, Byte[] Key, Byte[] IV)
-    {
-        DES des = DES.Create();
+        #region Decrypt
+        /// <summary>
+        /// Method to decrypt by DES
+        /// </summary>
+        /// <param name="Data">Byte Array of the data</param>
+        /// <param name="Key">DES Key</param>
+        /// <param name="IV">DES Initialization Vector</param>
+        /// <returns></returns>
+        public static byte[] Decrypt(byte[] Data, Byte[] Key, Byte[] IV)
+        {
+            DES des = DES.Create();
 
-        MemoryStream ms = new MemoryStream();
-        CryptoStream cs = new CryptoStream(ms, des.CreateDecryptor(Key, IV));
+            MemoryStream ms = new MemoryStream();
+            CryptoStream cs = new CryptoStream(ms, des.CreateDecryptor(Key, IV));
 
-        return Data;
+            return Data;
 
-    }
+        }
+        #endregion
 
-    public static void DisplayOptions()
-    {
-        Console.WriteLine("1. For Encrypting");
-        Console.WriteLine("2. For Decrypting");
-        Console.WriteLine("3. For System exit");
+        #region DisplayOptions
+        /// <summary>
+        /// Display the menu
+        /// </summary>
+        public static void DisplayOptions()
+        {
+            Console.WriteLine("1. For Encrypting");
+            Console.WriteLine("2. For Decrypting");
+            Console.WriteLine("3. For System exit");
 
+        }
+        #endregion
+
+        #region DisplayError
+        /// <summary>
+        /// Display a dark red error message
+        /// </summary>
+        public static void DisplayError()
+        {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("Error! Please try again with the input");
+
+        }
+        #endregion
     }
 }
