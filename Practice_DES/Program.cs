@@ -13,6 +13,7 @@ namespace Practice_DES
         static void Main(string[] args)
         {
             string message = String.Empty;
+            byte[] encrypted = default;
 
             Console.WriteLine("What would you like to encrypt?");
             message = Console.ReadLine();
@@ -20,8 +21,13 @@ namespace Practice_DES
             // Create a new DES object
             DES des = DES.Create();
 
-            Encrypt(message, des.Key, des.IV);
+            encrypted = Encrypt(message, des.Key, des.IV);
 
+            Console.WriteLine(new ASCIIEncoding().GetString(encrypted));
+
+            string decrypted = Decrypt(encrypted, des.Key, des.IV);
+
+            Console.WriteLine(decrypted);
 
         }
 
@@ -50,6 +56,7 @@ namespace Practice_DES
 
             byte[] encrypted = ms.ToArray();
 
+            // Close streams
             ms.Close();
             cs.Close();
 
@@ -66,16 +73,20 @@ namespace Practice_DES
         /// <param name="Key">DES Key</param>
         /// <param name="IV">DES Initialization Vector</param>
         /// <returns></returns>
-        public static byte[] Decrypt(byte[] Data, Byte[] Key, Byte[] IV)
+        public static string Decrypt(byte[] Data, Byte[] Key, Byte[] IV)
         {
             // Create a DES object
             DES des = DES.Create();
 
-            MemoryStream ms = new MemoryStream();
+            MemoryStream ms = new MemoryStream(Data);
 
             CryptoStream cs = new CryptoStream(ms, des.CreateDecryptor(Key, IV), CryptoStreamMode.Read);
 
-            return Data;
+            byte[] decrypted = new byte[Data.Length];
+
+            cs.Read(decrypted, 0, decrypted.Length);
+
+            return new ASCIIEncoding().GetString(decrypted); 
 
         }
         #endregion
