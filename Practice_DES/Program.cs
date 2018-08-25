@@ -17,28 +17,30 @@ namespace Practice_DES
         }
     }
 
-    public static byte[] Ecrypt(byte[] Data, DES.Key, DES.IV)
+    public static byte[] Ecrypt(byte[] Data, Byte[] Key, Byte[] IV)
     {
 
         DES des = DES.Create();
 
         MemoryStream ms = new MemoryStream();
-        CryptoStream cs = new CryptoStream(ms, DES.Key, DES.IV);
+        CryptoStream cs = new CryptoStream(ms, des.CreateEncryptor(Key, IV);
 
 
         return Data;
     }
 
-    public static byte[] Decrypt(byte[] Data, des.Key(), DES.IV)
+    public static byte[] Decrypt(byte[] Data, Byte[] Key, Byte[] IV)
     {
+        DES des = DES.Create();
+
         MemoryStream ms = new MemoryStream();
-        CryptoStream cs = new CryptoStream();
+        CryptoStream cs = new CryptoStream(ms, des.CreateDecryptor(Key, IV));
 
         return Data;
 
     }
 
-    public static void DisplayOption()
+    public static void DisplayOptions()
     {
         Console.WriteLine("1. For Encrypting");
         Console.WriteLine("2. For Decrypting");
